@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 18:19:18 by kaye              #+#    #+#             */
-/*   Updated: 2021/07/05 20:15:08 by kaye             ###   ########.fr       */
+/*   Updated: 2021/07/05 20:28:40 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	bonus_hud(void)
 int	event_loop(void)
 {
 	so_long();
-	bonus_hud();
+	bonus_hud();	
 	event_key();
 	return (1);
 }

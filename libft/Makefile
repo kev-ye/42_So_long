@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 16:59:07 by kaye              #+#    #+#              #
-#    Updated: 2021/07/04 17:42:41 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/05 20:48:19 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,21 +119,20 @@ B_CYAN 			= \033[1;36m
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(PTF_DIR)
 	@cp $(PTF_DIR)/$(PTF) $(NAME)
-	@printf "$(CL_LINE)$(J_CURSUS)"
+	@printf "$(CL_LINE)"
 	@ar -rcs $@ $^
-	@echo "Compilation of $(B_RED)$@$(NONE) done"
 	
 all: $(NAME)
 
 clean:
 	@$(MAKE) -C $(PTF_DIR) clean
 	@rm -Rf $(BUILD)
-	@echo "$(B_RED)$(BUILD)$(NONE) -> $(B_GREEN)Delete$(NONE)"
+	@echo "$(B_RED)$(BUILD)$(NONE) : $(B_GREEN)Delete$(NONE)"
 
 fclean: clean
 	@$(MAKE) -C $(PTF_DIR) fclean
 	@rm -Rf $(NAME)
-	@echo "$(B_RED)$(NAME)$(NONE)  -> $(B_GREEN)Delete$(NONE)"
+	@echo "$(B_RED)$(NAME)$(NONE) : $(B_GREEN)Delete$(NONE)"
 
 re: fclean all
 
@@ -143,5 +142,6 @@ $(BUILD):
 	@mkdir $@ $(DIRS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD)
-	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r$(S_CURSUS)"
+	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r"
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	@printf "$(CL_LINE)"
