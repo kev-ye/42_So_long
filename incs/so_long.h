@@ -6,7 +6,7 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 17:51:12 by kaye              #+#    #+#             */
-/*   Updated: 2021/07/04 21:09:04 by kaye             ###   ########.fr       */
+/*   Updated: 2021/07/05 20:15:24 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,6 @@
 #  define RED_CROSS 33
 # endif
 
-/* SHELL PRINT CODE */
-# define S_NONE "\033[0m"
-# define S_BLACK "\033[0;30m"
-# define S_RED "\033[0;31m"
-# define S_GREEN "\033[0;32m"
-# define S_YELLOW "\033[0;33m"
-# define S_BLUE "\033[0;34m"
-# define S_PURPLE "\033[0;35m"
-# define S_CYAN "\033[0;36m"
-# define S_CLRLINE "\033[K\r"
-
 /* EXIT CODE */
 # define SUCCESS 0
 # define FAILURE 1
@@ -56,14 +45,15 @@
 /* ERROR MSG */
 # define E_MALLOC "Malloc/mlx error"
 
-/*
-** STRUCT - IMAGE
-**
-** Bpp      : The number of bits per pixels.
-** Line_len : The size of a line.
-** Endian   : Endian.
-*/
-typedef struct	s_img
+/* MLX */
+# define WIDTH 1000
+# define HEIGTH 1000
+
+/* TEX */
+# define TEX_NBR 5
+
+/* STRUCT - IMAGE */
+typedef struct s_img
 {
 	void	*img_ptr;
 	char	*addr;
@@ -72,59 +62,67 @@ typedef struct	s_img
 	int		endian;
 	int		width;
 	int		height;
-}   t_img;
+}	t_img;
 
-/*
-** STRUCT - EVENT KEY
-*/
-// typedef struct	s_key
-// {
-// 	int		key_w;
-// 	int		key_s;
-// 	int		key_a;
-// 	int		key_d;
-// }   t_key;
-enum    s_key
+/* STRUCT - PARSER */
+typedef struct s_parser
 {
-	e_W,
-	e_S,
-	e_A,
-	e_D
-};
+	int		fd;
+	int		ret;
+	char	*line;
+	int		len;
+	int		tmp_len;
+	int		i;
+}	t_parser;
 
-/*
-** STRUCT - GLOBAL
-*/
-typedef struct	s_win
+/* STRUCT - PLAYER */
+typedef struct s_player
+{
+	int	x;
+	int	y;
+	int	count;
+}	t_player;
+
+/* STRUCT - GLOBAL */
+typedef struct s_win
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int			width;
-	int			height;
-	int         key_code[4];
+	int			key_code[4];
 	char		**map;
+	int			collectible;
+	int			len_frame_x;
+	int			len_frame_y;
+	t_player	player;
 	t_img		*img;
-}   t_win;
+	t_img		tex[TEX_NBR];
+}	t_win;
 
 /* ENGINE */
-t_img	*new_image(int size_width, int size_height);
+void		so_long(void);
+void		pixel_put_color(int x, int y, uint32_t color);
+void		move_w(void);
+void		move_s(void);
+void		move_a(void);
+void		move_d(void);
 
 /* EVENTS */
-int		event_loop(void);
-int		event_destroy_win(t_win *win);
-int		event_key_press(int keycode);
-int		event_key_release(int keycode);
-int		event_key(void);
-int		init_key(void);
+int			event_loop(void);
+int			event_destroy_win(void);
+int			event_key_press(int keycode);
+int			event_key_release(int keycode);
+int			event_key(void);
+int			init_key(void);
 
 /* PARSER */
-void	check_map_file(char *path);
-void	parsing(char *path);
+void		parsing(char *path);
+t_parser	parsing_check(char *path);
+void		load_tex(void);
 
 /* UTILS */
-void    __free__(void *ptr);
-int		__exit__(char *msg, void *ptr, int fd);
-int		__open__(char *path, const int flag);
-t_win   *singleton(void);
+void		__free__(void *ptr);
+int			__exit__(char *msg, void *ptr, int fd, int ret);
+int			__open__(char *path, const int flag);
+t_win		*singleton(void);
 
 #endif

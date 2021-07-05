@@ -6,14 +6,14 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/04 17:33:19 by kaye              #+#    #+#              #
-#    Updated: 2021/07/04 19:43:25 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/05 18:39:47 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION
 
 CC		= clang
-CFLAGS 	= -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS 	= -Wall -Wextra -Werror -fsanitize=address
 IFLAGS 	= -I./incs -I./libft/inc -I./mlx/
 LFLAGS	= -L./libft -lft -L./mlx -lmlx -framework OpenGL -framework AppKit
 
@@ -39,7 +39,9 @@ SRC				+= $(addprefix engine/, $(SUB_SRC))
 SUB_SRC			:= event_key.c \
 				   event.c
 SRC				+= $(addprefix events/, $(SUB_SRC))
-SUB_SRC			:= parser.c
+SUB_SRC			:= parser.c \
+				   parser_check.c \
+				   tex_load.c
 SRC				+= $(addprefix parser/, $(SUB_SRC))
 SUB_SRC			:= utils.c
 SRC				+= $(addprefix utils/, $(SUB_SRC))
@@ -64,7 +66,7 @@ B_CYAN 			= \033[1;36m
 $(NAME): $(OBJ)
 	@$(MAKE) -C $(LIBFT_DIR)
 	@printf "$(CL_LINE)$(J_CURSUS)"
-	@$(CC) $(CFLAG) $(IFLAGS) $(OBJ) -o $@ $(LFLAGS)
+	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJ) -o $@ $(LFLAGS)
 	@echo "Compilation of $(B_RED)$@$(NONE) done"
 
 all: $(NAME)
@@ -88,4 +90,4 @@ $(BUILD):
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c | $(BUILD)
 	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r$(S_CURSUS)"
-	@$(CC) $(CFLAG) $(IFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@

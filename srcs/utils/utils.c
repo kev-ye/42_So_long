@@ -6,42 +6,60 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 18:19:39 by kaye              #+#    #+#             */
-/*   Updated: 2021/07/04 21:11:16 by kaye             ###   ########.fr       */
+/*   Updated: 2021/07/05 19:59:02 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void __free__(void *ptr)
+void	__free__(void *ptr)
 {
 	free(ptr);
 	ptr = NULL;
 }
 
-int	__exit__(char *msg, void *ptr, int fd)
+void	__singleton_clean__(void)
+{
+	int	i;
+
+	if (singleton()->mlx_ptr && singleton()->win_ptr)
+		mlx_destroy_window(singleton()->mlx_ptr, singleton()->win_ptr);
+	if (singleton()->img)
+		__free__(singleton()->img);
+	i = 0;
+	if (singleton()->map)
+	{
+		while (singleton()->map[i])
+			__free__(singleton()->map[i++]);
+		__free__(singleton()->map[i]);
+		__free__(singleton()->map);
+	}
+	__free__((void *)singleton());
+}
+
+int	__exit__(char *msg, void *ptr, int fd, int ret)
 {
 	if (msg)
-		ft_printf("Error\n%s\n", msg);
+	{
+		if (ret == FAILURE)
+			ft_putstr("Error\n");
+		ft_printf("%s\n", msg);
+	}
 	if (ptr)
 		__free__(ptr);
 	if (fd != NOTHING)
 		close(fd);
 	if (singleton())
-    {
-        // mlx_destroy_window(singleton()->mlx_ptr, singleton()->win_ptr);
-		if (singleton()->img)
-			__free__(singleton()->img);
-        __free__((void *)singleton());
-    }
-    exit(FAILURE);
+		__singleton_clean__();
+	exit(ret);
 }
 
 int	__open__(char *path, const int flag)
 {
-	const int fd = open(path, flag);
+	const int	fd = open(path, flag);
 
 	if (!fd)
-		__exit__(strerror(errno), NULL, NOTHING);
+		__exit__(strerror(errno), NULL, NOTHING, FAILURE);
 	return ((int)fd);
 }
 

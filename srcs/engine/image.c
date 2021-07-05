@@ -6,26 +6,17 @@
 /*   By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/04 18:30:10 by kaye              #+#    #+#             */
-/*   Updated: 2021/07/04 21:10:36 by kaye             ###   ########.fr       */
+/*   Updated: 2021/07/05 19:49:22 by kaye             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_img	*new_image(
-		int size_width,
-		int size_height)
+void	pixel_put_color(int x, int y, uint32_t color)
 {
-	t_img *new_img;
+	char	*dst;
 
-	if (!(new_img = calloc(sizeof(t_img), 1)))
-		__exit__(E_MALLOC, NULL, NOTHING);
-	if (!(new_img->img_ptr = mlx_new_image(singleton()->mlx_ptr, size_width,
-					size_height)))
-		__exit__(E_MALLOC, NULL, NOTHING);
-	new_img->addr = mlx_get_data_addr(new_img->img_ptr, &new_img->bpp,
-			&new_img->line_len, &new_img->endian);
-	new_img->width = size_width;
-	new_img->height = size_height;
-	return (new_img);
+	dst = singleton()->img->addr
+		+ (y * singleton()->img->line_len + x * (singleton()->img->bpp / 8));
+	*(uint32_t *)dst = color;
 }
