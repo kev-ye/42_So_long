@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 16:59:07 by kaye              #+#    #+#              #
-#    Updated: 2021/07/05 20:48:19 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/06 15:28:44 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,9 +117,9 @@ B_CYAN 			= \033[1;36m
 # MAKEFILE
 
 $(NAME): $(OBJ)
+	@printf "$(CL_LINE)"
 	@$(MAKE) -C $(PTF_DIR)
 	@cp $(PTF_DIR)/$(PTF) $(NAME)
-	@printf "$(CL_LINE)"
 	@ar -rcs $@ $^
 	
 all: $(NAME)
@@ -144,4 +144,3 @@ $(BUILD):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD)
 	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r"
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
-	@printf "$(CL_LINE)"

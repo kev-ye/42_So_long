@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/04 17:33:19 by kaye              #+#    #+#              #
-#    Updated: 2021/07/06 15:14:07 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/06 15:32:01 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,11 +72,12 @@ $(NAME): MLX = libmlx.a
 endif
 
 $(NAME): $(OBJ)
+	@printf "$(CL_LINE)"
 	@echo "[1 / 3] - $(B_MAGENTA)$@$(NONE)"
 	@$(MAKE) -C $(LIBFT_DIR)
 	@echo "[2 / 3] - $(B_MAGENTA)Libft$(NONE)"
-	@echo "[3 / 3] - $(B_MAGENTA)MLX$(NONE)"
 	@$(MAKE) -C $(MLX_DIR) >/dev/null
+	@echo "[3 / 3] - $(B_MAGENTA)MLX$(NONE)"
 	@cp $(MLX_DIR)/$(MLX) .
 	@$(CC) $(CFLAGS) $(IFLAGS) $(OBJ) -o $@ $(LFLAGS)
 	@echo "$(B_GREEN)Compilation done !$(NONE)"
@@ -112,4 +113,3 @@ $(BUILD):
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c | $(BUILD)
 	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r"
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@ -D BONUS=$(BFLAGS)
-	@printf "$(CL_LINE)"
