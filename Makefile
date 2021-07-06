@@ -64,6 +64,7 @@ B_CYAN 			= \033[1;36m
 
 # MAKEFILE
 ifeq ($(shell uname), Linux)
+$(NAME): IFLAGS 	= -I./incs -I./libft/inc -I./mlx_linux/
 $(NAME): LFLAGS	= -L./libft -lft -L./mlx_linux -lmlx_Linux -lXext -lX11
 $(NAME): MLX_DIR = ./mlx_linux
 $(NAME): MLX = libmlx.a
@@ -89,6 +90,10 @@ clean:
 	@rm -Rf $(BUILD)
 	@echo "$(B_RED)$(BUILD)$(NONE) : $(B_GREEN)Delete$(NONE)"
 
+ifeq ($(shell uname), Linux)
+fclean: MLX_DIR =./mlx_linux
+fclean: MLX = libmlx.a
+endif
 fclean: clean
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(MAKE) -C $(MLX_DIR) clean >/dev/null

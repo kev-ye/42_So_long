@@ -22,10 +22,20 @@ void	__singleton_clean__(void)
 {
 	int	i;
 
-	if (singleton()->mlx_ptr && singleton()->win_ptr)
+	if (singleton()->mlx_ptr)
+	{
+		if (singleton()->img)
+		{
+			mlx_destroy_image(singleton()->mlx_ptr, singleton()->img->img_ptr);
+			__free__(singleton()->img);
+		}
+		i = 0;
+		while (i < TEX_NBR)
+			mlx_destroy_image(singleton()->mlx_ptr, singleton()->tex[i++].img_ptr);
 		mlx_destroy_window(singleton()->mlx_ptr, singleton()->win_ptr);
-	if (singleton()->img)
-		__free__(singleton()->img);
+		mlx_destroy_display(singleton()->mlx_ptr);
+		free(singleton()->mlx_ptr);
+	}
 	i = 0;
 	if (singleton()->map)
 	{

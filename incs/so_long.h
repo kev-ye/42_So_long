@@ -19,6 +19,9 @@
 # include <errno.h>
 # include <mlx.h>
 # include "libft.h"
+# if defined __linux__
+#  include <stdint.h>
+# endif
 
 /* KEY CODE MACOS / LINUX */
 # if defined (__APPLE__) && (__MACH__)
