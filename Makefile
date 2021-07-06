@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/04 17:33:19 by kaye              #+#    #+#              #
-#    Updated: 2021/07/06 13:46:19 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/06 15:14:07 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SUB_SRC			:= parser.c \
 				   parser_check.c \
 				   tex_load.c
 SRC				+= $(addprefix parser/, $(SUB_SRC))
-SUB_SRC			:= utils.c
+SUB_SRC			:= utils.c \
+				   exit.c
 SRC				+= $(addprefix utils/, $(SUB_SRC))
 OBJ				:= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
