@@ -6,7 +6,7 @@
 #    By: kaye <kaye@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/04 17:33:19 by kaye              #+#    #+#              #
-#    Updated: 2021/07/05 21:08:17 by kaye             ###   ########.fr        #
+#    Updated: 2021/07/06 13:46:19 by kaye             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CC		= clang
 CFLAGS 	= -Wall -Wextra -Werror
 IFLAGS 	= -I./incs -I./libft/inc -I./mlx/
 LFLAGS	= -L./libft -lft -L./mlx -lmlx -framework OpenGL -framework AppKit
+BFLAGS	= 0
 
 # DIRECTORIES
 
@@ -62,6 +63,11 @@ B_MAGENTA 		= \033[1;35m
 B_CYAN 			= \033[1;36m
 
 # MAKEFILE
+ifeq ($(shell uname), Linux)
+$(NAME): LFLAGS	= -L./libft -lft -L./mlx_linux -lmlx_Linux -lXext -lX11
+$(NAME): MLX_DIR = ./mlx_linux
+$(NAME): MLX = libmlx.a
+endif
 
 $(NAME): $(OBJ)
 	@echo "[1 / 3] - $(B_MAGENTA)$@$(NONE)"
@@ -74,6 +80,9 @@ $(NAME): $(OBJ)
 	@echo "$(B_GREEN)Compilation done !$(NONE)"
 
 all: $(NAME)
+
+bonus: BFLAGS = 1
+bonus: $(NAME)
 
 clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
@@ -96,5 +105,5 @@ $(BUILD):
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c | $(BUILD)
 	@printf "$(CL_LINE)Compiling srcs object : $(B_CYAN)$< $(NONE)...\r"
-	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@ -D BONUS=$(BFLAGS)
 	@printf "$(CL_LINE)"
